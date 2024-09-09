@@ -1,27 +1,26 @@
 interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
-  label: string;
-  isFluid: boolean;
-  isDisabled: boolean;
-}
-
-export default function Button(props: ButtonProps) {
-
-  const buttonStyle = {
-    backgroundColor: '#FF8E29',
-    color: '#FFFFFF',
-    width: props.isFluid ? '100%' : 'auto',
-    padding: '10px 150px',    
-    border: 'none',         
-    borderRadius: '30px',     
-  };
-
-  return (
-    <button
-      style={buttonStyle}
-      onClick={props.onClick}
-      disabled={props.isDisabled}
-    >
-      {props.label}
-    </button>
-  );
-}
+    label: string;
+    isFluid: boolean;
+    isDisabled: boolean;
+  }
+  
+  export default function Button(props: ButtonProps) {
+  
+    const buttonStyle = {
+      backgroundColor: '#FF8E29',
+      color: '#FFFFFF',
+      width: props.isFluid ? '100%' : 'auto',
+      border: 'none',         
+      borderRadius: '30px',     
+    };
+  
+    return (
+      <button
+        style={buttonStyle}
+        onClick={props.onClick}
+        disabled={props.isDisabled}
+      >
+        {props.label}
+      </button>
+    );
+  }
