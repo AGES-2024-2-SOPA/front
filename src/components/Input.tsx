@@ -1,7 +1,5 @@
 import React from 'react';
-import '../styles/input.css'; // Certifique-se de importar o arquivo CSS
 
-// Definição do tipo das propriedades esperadas pelo componente Input
 interface InputProps {
   type?: string;
   icon?: React.ReactNode;
@@ -10,16 +8,14 @@ interface InputProps {
   onChangeCallback?: (value: string) => void;
 }
 
-// Componente Input tipado
-const Input: React.FC<InputProps> = ({ 
+const Input = ({ 
   type = 'text', 
   icon, 
   label, 
   placeholder = '', 
   onChangeCallback 
-}) => {
+}:InputProps ) => {
 
-  // Função que é chamada sempre que o valor do input é alterado
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onChangeCallback) {
       onChangeCallback(event.target.value);
@@ -27,16 +23,16 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className="custom_input">
-      {label && <label>{label}</label>}
+    <div className="flex items-center relative w-full">
+      {label && <label className="mb-2 block text-sm font-medium text-gray-700">{label}</label>}
       
-      <div style={{ position: 'relative', width: '100%' }}>
-        {icon && <span className="svg_icon">{icon}</span>}
+      <div className="relative w-full">
+        {icon && <span className="absolute right-7 top-4 fill-current text-gray-500 w-4 h-4">{icon}</span>}
         <input 
           type={type} 
           placeholder={placeholder} 
           onChange={handleChange} 
-          className="input" 
+          className="w-full px-4 py-2 text-sm bg-gray-100 text-gray-900 border border-gray-300 rounded-full transition duration-300 focus:outline-none focus:border-green-600"
         />
       </div>
     </div>
