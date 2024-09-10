@@ -4,23 +4,15 @@ interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
     isDisabled: boolean;
   }
   
-  export default function Button(props: ButtonProps) {
-  
-    const buttonStyle = {
-      backgroundColor: '#FF8E29',
-      color: '#FFFFFF',
-      width: props.isFluid ? '100%' : 'auto',
-      border: 'none',         
-      borderRadius: '30px',     
-    };
-  
+  export default function Button({isDisabled, isFluid, label, onClick}: ButtonProps) {
+
     return (
       <button
-        style={buttonStyle}
-        onClick={props.onClick}
-        disabled={props.isDisabled}
+        className = {`bg-amber-500 text-white border-none rounded-3xl ${isFluid ? 'w-full' : 'w-auto'} p-3`}
+        onClick={onClick}
+        disabled={isDisabled}
       >
-        {props.label}
+        {label}
       </button>
     );
   }
