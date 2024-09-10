@@ -4,26 +4,29 @@ import ProtectedRoute from './ProtectedRoute';
 import ProtectedPage from '../pages/ProtectedExample';
 import NotFound from '../pages/NotFound';
 import Unauthorized from '../pages/Unauthorized';
+import Layout from '../layouts/Layout';
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Exemplo de rota pública */}
-      <Route path="/" element={<Home />} />
+      <Route element={<Layout />}>
+        {/* Exemplo de rota pública */}
+        <Route path="/" element={<Home />} />
 
-      {/* Exemplo de rota protegida para admin */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <ProtectedPage />
-          </ProtectedRoute>
-        }
-      />
+        {/* Exemplo de rota protegida para admin */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedPage />
+            </ProtectedRoute>
+          }
+          />
 
-      {/* Exemplo de rota catch all e não autorizada */}
-      <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="*" element={<NotFound />} />
+        {/* Exemplo de rota catch all e não autorizada */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
     </Routes>
   );
 };
