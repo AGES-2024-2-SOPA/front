@@ -4,11 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)',
+        primary: 'var(--color-txt-primary)',
+        secondary: 'var(--color-txt-secondary)',
         accent: 'var(--color-accent)',
         background: 'var(--color-background)',
-        border: 'var(--color-border)',
+        border: 'var(--color-border-shadow)',
+      },
+
+      boxShadow: {
+        even: '0 0px 5px rgba(0, 0, 0, 0.15)', //shadow in all directions
       },
     },
   },

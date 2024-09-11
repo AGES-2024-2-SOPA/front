@@ -24,13 +24,14 @@ export const CarCard = ({
 }: CarCardProps) => {
     return (
         <Link 
-            to='/visualizar-carro-{idCar}' //implementar rota
+            to={`/view-car-${idCar}`}
             className="block w-full max-w-[338px] max-h-[231px] h-full no-underline"
         >
             <div 
                 className="
-                    p-4 mx-auto rounded-lg shadow-sm bg-background 
-                    border border-border hover:border-accent hover:shadow-md
+                    p-4 mx-auto rounded-lg bg-background
+                    shadow-even 
+                    hover:border hover:border-accent
                     transition-all duration-300 ease-in-out
                 "
             >
