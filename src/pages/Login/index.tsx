@@ -53,9 +53,12 @@ const Login = () => {
                     <div className="p-10 rounded-lg mb-6" style={{marginTop: '100px'}}>
                         <img src="/logoprojeto.png" alt="Logo"/>
                     </div>
-                    <div className="mt-auto mb-[260px]">
-                        <h2 className="text-2xl font-bold text-left text-white -ml-80">Bem-vindo <br/> de volta!</h2>
+                    <div className="mb-80 mt-4">
+                        <h2 className="text-2xl font-bold text-center text-white">Bem-vindo <br/> de volta!</h2>
                     </div>
+                    {/*<div className="mt-auto mb-[260px]">*/}
+                    {/*    <h2 className="text-2xl font-bold text-left text-white -ml-80">Bem-vindo <br/> de volta!</h2>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>
