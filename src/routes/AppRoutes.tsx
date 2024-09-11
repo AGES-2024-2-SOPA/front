@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
+import Login from '../pages/Login';
 import ProtectedRoute from './ProtectedRoute';
 import ProtectedPage from '../pages/ProtectedExample';
 import NotFound from '../pages/NotFound';
@@ -10,6 +11,8 @@ const AppRoutes = () => {
     <Routes>
       {/* Exemplo de rota pública */}
       <Route path="/" element={<Home />} />
+
+      <Route path="/login" element={<Login />} />
 
       {/* Exemplo de rota protegida para admin */}
       <Route
