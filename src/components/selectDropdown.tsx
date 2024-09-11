@@ -19,6 +19,8 @@
  * @returns {JSX.Element} The rendered Dropdown component.
  */
 import React, { useState, useEffect, useRef } from 'react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 interface DropdownProps {
   description: string;
@@ -92,9 +94,9 @@ const Dropdown: React.FC<DropdownProps> = ({ description, fetchOptions, enableSe
         className="w-full flex justify-between items-center bg-gray-100 text-gray-500 rounded-full p-4 shadow-md focus:outline-none "
       >
         {selectedOption ? selectedOption : description}
-        <span className="material-icons">
-          {isOpen ? 'A' : 'V'}
-        </span>
+        <div>
+          {isOpen ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
+        </div>
       </button>
 
       {isOpen && (
