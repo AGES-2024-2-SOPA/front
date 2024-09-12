@@ -30,8 +30,8 @@ export const CarCard = ({
             <div 
                 className="
                     p-4 mx-auto rounded-lg bg-background
-                    shadow-even 
-                    hover:border hover:border-accent
+                    hover:shadow-even
+                    border-[1px] border-gray-300
                     transition-all duration-300 ease-in-out
                 "
             >
@@ -45,8 +45,8 @@ export const CarCard = ({
                 </div>
                 
                 <div className="flex justify-between">
-                    <p className="text-primary text-sm">R$ {costs}</p>
-                    <p className="text-primary text-sm">{purchaseDate}</p>
+                    <p className="text-primary text-sm font-medium">R$ {costs}</p>
+                    <p className="text-primary text-sm font-medium">{purchaseDate}</p>
                 </div>
 
                 <div className="bg-border w-full h-px my-2"></div>
@@ -57,8 +57,8 @@ export const CarCard = ({
                 </div>
 
                 <div className="flex justify-between">
-                    <p className="text-primary text-sm">{registeredParts}</p>
-                    <p className="text-primary text-sm">{soldParts}</p>
+                    <p className="text-primary text-sm font-medium">{registeredParts}</p>
+                    <p className="text-primary text-sm font-medium">{soldParts}</p>
                 </div>
 
                 <div className="bg-border w-full h-px my-2"></div>
@@ -69,8 +69,8 @@ export const CarCard = ({
                 </div>
 
                 <div className="flex justify-between">
-                    <p className="text-primary text-sm">R$ {expectedReturn}</p>
-                    <p className="text-primary text-sm">R$ {currentReturn}</p>
+                    <p className="text-primary text-sm font-medium">R$ {expectedReturn}</p>
+                    <p className="text-primary text-sm font-medium">R$ {currentReturn}</p>
                 </div>
 
             </div>
