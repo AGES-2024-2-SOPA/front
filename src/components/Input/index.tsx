@@ -14,7 +14,7 @@ const Input = ({
   label, 
   placeholder = '', 
   onChangeCallback 
-}:InputProps ) => {
+}: InputProps ) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onChangeCallback) {
@@ -23,7 +23,7 @@ const Input = ({
   };
 
   return (
-    <div className="flex items-center relative w-full">
+    <div className="flex flex-col w-full">
       {label && <label className="mb-2 block text-sm font-medium text-gray-700">{label}</label>}
       
       <div className="relative w-full">
