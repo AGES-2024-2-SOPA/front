@@ -1,6 +1,5 @@
-// src/layouts/MainLayout.tsx
 import React from 'react';
-import { Outlet } from 'react-router-dom'; // Outlet será usado para renderizar as páginas dentro do layout
+import { Outlet } from 'react-router-dom';
 
 const Layout: React.FC = () => {
   return (
