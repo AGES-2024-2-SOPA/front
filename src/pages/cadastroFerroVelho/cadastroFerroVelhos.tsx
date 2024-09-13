@@ -4,14 +4,36 @@ import Button from '../../components/Button/index';
 import { z } from 'zod';
 import axios from 'axios';
 
+interface FormData {
+  nomeEmpresa: string;
+  nomeFantasia: string;
+  cnpj: string;
+  email: string;
+  telefone: string;
+  cdv: string;
+  cep: string;
+  endereco: string;
+  numero: string;
+  complemento?: string;
+  estado: string;
+}
+
+interface Errors {
+  [key: string]: string;
+}
+
+const cnpjRegex = /^\d{14}$/;
+const cepRegex = /^\d{8}$/;
+const telefoneRegex = /^\d{10,11}$/;
+
 const vendedorSchema = z.object({
   nomeEmpresa: z.string().min(3, { message: "Nome da Empresa deve ter pelo menos 3 caracteres" }),
   nomeFantasia: z.string().min(3, { message: "Nome Fantasia deve ter pelo menos 3 caracteres" }),
-  cnpj: z.string().min(14, { message: "CNPJ deve ter 14 dígitos" }).max(14, { message: "CNPJ deve ter 14 dígitos" }),
+  cnpj: z.string().regex(cnpjRegex, { message: "CNPJ deve ter 14 dígitos numéricos" }),
   email: z.string().email({ message: "Email inválido" }),
-  telefone: z.string().regex(/^\d{10,11}$/, { message: "Telefone inválido" }),
+  telefone: z.string().regex(telefoneRegex, { message: "Telefone inválido" }),
   cdv: z.string().min(1, { message: "CDV obrigatório" }),
-  cep: z.string().min(8, { message: "CEP deve ter 8 dígitos" }).max(8, { message: "CEP deve ter 8 dígitos" }),
+  cep: z.string().regex(cepRegex, { message: "CEP deve ter 8 dígitos numéricos" }),
   endereco: z.string().min(1, { message: "Endereço obrigatório" }),
   numero: z.string().min(1, { message: "Número obrigatório" }),
   complemento: z.string().optional(),
@@ -19,7 +41,7 @@ const vendedorSchema = z.object({
 });
 
 const CadastroVendedor = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     nomeEmpresa: '',
     nomeFantasia: '',
     cnpj: '',
@@ -33,11 +55,9 @@ const CadastroVendedor = () => {
     estado: '',
   });
 
-  const [errors, setErrors] = useState({
-    nomeEmpresa: '', nomeFantasia: '', cnpj: '', email: '', telefone: '', cdv: '', cep: '', endereco: '', numero: '', complemento: '', estado: ''
-  });
+  const [errors, setErrors] = useState<Errors>({});
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prevState => ({ ...prevState, [field]: value }));
 
     if (field === 'cep' && value.length === 8) {
@@ -55,8 +75,9 @@ const CadastroVendedor = () => {
           ...prevState,
           endereco: data.logradouro,
           estado: data.uf,
-          complemento: '',
+          complemento: data.complemento || '',
         }));
+        setErrors(prevState => ({ ...prevState, cep: '' }));
       } else {
         setErrors(prevState => ({ ...prevState, cep: 'CEP não encontrado' }));
       }
@@ -68,31 +89,31 @@ const CadastroVendedor = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      setErrors({
-        nomeEmpresa: '', nomeFantasia: '', cnpj: '', email: '', telefone: '', cdv: '', cep: '', endereco: '', numero: '', complemento: '', estado: ''
-      });
+      setErrors({});
       vendedorSchema.parse(formData);
       console.log('Formulário enviado com sucesso:', formData);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        const newErrors: Errors = {};
         error.errors.forEach((err) => {
-          setErrors(prev => ({ ...prev, [err.path[0]]: err.message }));
+          if (err.path && err.path.length > 0) {
+            const fieldName = err.path[0] as string;
+            newErrors[fieldName] = err.message;
+          }
         });
+        setErrors(newErrors);
       }
     }
   };
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#FFF4EA]">
-      {/* Contêiner principal */}
       <div className="w-full max-w-4xl">
-        {/* Contêiner do Formulário */}
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <form onSubmit={handleSubmit}>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Cadastro Vendedor</h2>
 
             <div className="grid grid-cols-2 gap-x-12 gap-y-6">
-              {/* Campos do formulário */}
               <div>
                 <h3 className="text-lg font-semibold mb-4">Informações básicas</h3>
                 <div className="space-y-4">
@@ -185,16 +206,15 @@ const CadastroVendedor = () => {
             </div>
           </form>
         </div>
-
-   
         <div className="flex justify-end mt-8">
-          <Button
-            isFluid={false}
-            onClick={handleSubmit}
-            customClass="w-[329px] h-[45px] !important" 
-          >
-            Próximo
-          </Button>
+          <div className="w-80">
+            <Button
+              isFluid={true}
+              onClick={handleSubmit}
+            >
+              Próximo
+            </Button>
+          </div>
         </div>
       </div>
     </div>
