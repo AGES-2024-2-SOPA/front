@@ -191,7 +191,7 @@ const CadastroVendedor = () => {
           <Button
             isFluid={false}
             onClick={handleSubmit}
-            customClass="w-[329px] h-[45px]" 
+            customClass="w-[330px] h-[45px] !important" 
           >
             Próximo
           </Button>
