@@ -15,8 +15,6 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   return children;
 };
 
-// TODO: Implementar uma forma de obter o papel do usuário
-// Exemplo de função auxiliar para obter o papel do usuário a partir do localStorage
 const getUserRole = () => {
   return localStorage.getItem('userRole') || 'guest'; 
 };

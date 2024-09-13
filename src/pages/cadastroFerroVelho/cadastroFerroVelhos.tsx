@@ -186,12 +186,12 @@ const CadastroVendedor = () => {
           </form>
         </div>
 
-        {/* Botão fora do contêiner branco */}
+   
         <div className="flex justify-end mt-8">
           <Button
             isFluid={false}
             onClick={handleSubmit}
-            customClass="w-[330px] h-[45px] !important" 
+            customClass="w-[329px] h-[45px] !important" 
           >
             Próximo
           </Button>
