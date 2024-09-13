@@ -13,8 +13,7 @@ const AppRoutes = () => {
       <Route element={<Layout />}>
         {/* Exemplo de rota pública */}
         <Route path="/" element={<Home />} />
-
-      <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
       {/* Exemplo de rota protegida para admin */}
       <Route
