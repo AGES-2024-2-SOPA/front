@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Input from '../../components/Input/index'; 
+import Input from '../../components/Input/index';
+import Button from '../../components/Button/index';
 import { z } from 'zod';
 import axios from 'axios';
 
@@ -54,8 +55,7 @@ const CadastroVendedor = () => {
           ...prevState,
           endereco: data.logradouro,
           estado: data.uf,
-          complemento: '', // Mantendo "Complemento" vazio
-          numero: '' // Mantendo "Número" vazio
+          complemento: '',
         }));
       } else {
         setErrors(prevState => ({ ...prevState, cep: 'CEP não encontrado' }));
@@ -73,7 +73,6 @@ const CadastroVendedor = () => {
       });
       vendedorSchema.parse(formData);
       console.log('Formulário enviado com sucesso:', formData);
-      // Aqui você pode enviar os dados para uma API ou realizar outra ação
     } catch (error) {
       if (error instanceof z.ZodError) {
         error.errors.forEach((err) => {
@@ -84,109 +83,120 @@ const CadastroVendedor = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#FFF4EA]">
-      <form className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Cadastro Vendedor</h2>
-        
-        <div className="grid grid-cols-2 gap-x-12 gap-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Informações básicas</h3>
-            <div className="space-y-4">
-              <Input 
-                label="Nome da Empresa" 
-                placeholder="Digite o Nome da Empresa" 
-                onChangeCallback={(value) => handleInputChange('nomeEmpresa', value)} 
-                value={formData.nomeEmpresa}
-                error={errors.nomeEmpresa}
-              />
-              <Input 
-                label="Nome Fantasia" 
-                placeholder="Digite o Nome Fantasia" 
-                onChangeCallback={(value) => handleInputChange('nomeFantasia', value)} 
-                value={formData.nomeFantasia}
-                error={errors.nomeFantasia}
-              />
-              <Input 
-                label="CNPJ" 
-                placeholder="Digite o CNPJ" 
-                onChangeCallback={(value) => handleInputChange('cnpj', value)} 
-                value={formData.cnpj}
-                error={errors.cnpj}
-              />
-              <Input 
-                label="Email" 
-                placeholder="Digite o Email" 
-                type="email" 
-                onChangeCallback={(value) => handleInputChange('email', value)} 
-                value={formData.email}
-                error={errors.email}
-              />
-              <Input 
-                label="Telefone" 
-                placeholder="Digite o Telefone" 
-                type="tel" 
-                onChangeCallback={(value) => handleInputChange('telefone', value)} 
-                value={formData.telefone}
-                error={errors.telefone}
-              />
-              <Input 
-                label="CDV" 
-                placeholder="Digite o CDV" 
-                onChangeCallback={(value) => handleInputChange('cdv', value)} 
-                value={formData.cdv}
-                error={errors.cdv}
-              />
+    <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#FFF4EA]">
+      {/* Contêiner principal */}
+      <div className="w-full max-w-4xl">
+        {/* Contêiner do Formulário */}
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <form onSubmit={handleSubmit}>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Cadastro Vendedor</h2>
+
+            <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+              {/* Campos do formulário */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Informações básicas</h3>
+                <div className="space-y-4">
+                  <Input
+                    label="Nome da Empresa"
+                    placeholder="Digite o Nome da Empresa"
+                    onChangeCallback={(value) => handleInputChange('nomeEmpresa', value)}
+                    value={formData.nomeEmpresa}
+                    error={errors.nomeEmpresa}
+                  />
+                  <Input
+                    label="Nome Fantasia"
+                    placeholder="Digite o Nome Fantasia"
+                    onChangeCallback={(value) => handleInputChange('nomeFantasia', value)}
+                    value={formData.nomeFantasia}
+                    error={errors.nomeFantasia}
+                  />
+                  <Input
+                    label="CNPJ"
+                    placeholder="Digite o CNPJ"
+                    onChangeCallback={(value) => handleInputChange('cnpj', value)}
+                    value={formData.cnpj}
+                    error={errors.cnpj}
+                  />
+                  <Input
+                    label="Email"
+                    placeholder="Digite o Email"
+                    type="email"
+                    onChangeCallback={(value) => handleInputChange('email', value)}
+                    value={formData.email}
+                    error={errors.email}
+                  />
+                  <Input
+                    label="Telefone"
+                    placeholder="Digite o Telefone"
+                    type="tel"
+                    onChangeCallback={(value) => handleInputChange('telefone', value)}
+                    value={formData.telefone}
+                    error={errors.telefone}
+                  />
+                  <Input
+                    label="CDV"
+                    placeholder="Digite o CDV"
+                    onChangeCallback={(value) => handleInputChange('cdv', value)}
+                    value={formData.cdv}
+                    error={errors.cdv}
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Endereço</h3>
+                <div className="space-y-4">
+                  <Input
+                    label="CEP"
+                    placeholder="Digite o CEP"
+                    onChangeCallback={(value) => handleInputChange('cep', value)}
+                    value={formData.cep}
+                    error={errors.cep}
+                  />
+                  <Input
+                    label="Endereço"
+                    placeholder="Digite o Endereço"
+                    onChangeCallback={(value) => handleInputChange('endereco', value)}
+                    value={formData.endereco}
+                    error={errors.endereco}
+                  />
+                  <Input
+                    label="Número"
+                    placeholder="Digite o Número"
+                    onChangeCallback={(value) => handleInputChange('numero', value)}
+                    value={formData.numero}
+                    error={errors.numero}
+                  />
+                  <Input
+                    label="Complemento"
+                    placeholder="Digite o Complemento"
+                    onChangeCallback={(value) => handleInputChange('complemento', value)}
+                    value={formData.complemento}
+                    error={errors.complemento}
+                  />
+                  <Input
+                    label="Estado"
+                    placeholder="Digite o Estado"
+                    onChangeCallback={(value) => handleInputChange('estado', value)}
+                    value={formData.estado}
+                    error={errors.estado}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Endereço</h3>
-            <div className="space-y-4">
-              <Input 
-                label="CEP" 
-                placeholder="Digite o CEP" 
-                onChangeCallback={(value) => handleInputChange('cep', value)} 
-                value={formData.cep}
-                error={errors.cep}
-              />
-              <Input 
-                label="Endereço" 
-                placeholder="Digite o Endereço" 
-                onChangeCallback={(value) => handleInputChange('endereco', value)} 
-                value={formData.endereco}
-                error={errors.endereco}
-              />
-              <Input 
-                label="Número" 
-                placeholder="Digite o Número" 
-                onChangeCallback={(value) => handleInputChange('numero', value)} 
-                value={formData.numero}
-                error={errors.numero}
-              />
-              <Input 
-                label="Complemento" 
-                placeholder="Digite o Complemento" 
-                onChangeCallback={(value) => handleInputChange('complemento', value)} 
-                value={formData.complemento}
-                error={errors.complemento}
-              />
-              <Input 
-                label="Estado" 
-                placeholder="Digite o Estado" 
-                onChangeCallback={(value) => handleInputChange('estado', value)} 
-                value={formData.estado}
-                error={errors.estado}
-              />
-            </div>
-          </div>
+          </form>
         </div>
 
-        <button 
-          type="submit" 
-          className="mt-8 w-full py-3 bg-[#FF8E29] text-white rounded-full hover:bg-[#e07a20] transition duration-300"
-        >
-          Próximo
-        </button>
-      </form>
+        {/* Botão fora do contêiner branco */}
+        <div className="flex justify-end mt-8">
+          <Button
+            isFluid={false}
+            onClick={handleSubmit}
+            customClass="w-[329px] h-[45px]" 
+          >
+            Próximo
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
