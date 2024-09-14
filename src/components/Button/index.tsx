@@ -6,7 +6,7 @@ interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
 
     return (
       <button
-        className = {`bg-amber-500 text-white border-none rounded-3xl ${isFluid ? 'w-full' : 'w-auto'} p-3`}
+        className = {`bg-accent text-white border-border rounded-3xl ${isFluid ? 'w-full' : 'w-auto'} p-3`}
         onClick={onClick}
         disabled={disabled}
       >
