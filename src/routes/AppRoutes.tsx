@@ -5,15 +5,16 @@ import ProtectedPage from '../pages/ProtectedExample';
 import NotFound from '../pages/NotFound';
 import Unauthorized from '../pages/Unauthorized';
 import Layout from '../layouts/Layout';
+import CadastroFerrosVelhos from '../pages/cadastroFerroVelho/cadastroFerroVelhos'; 
+import CadastroRepresentante from '../pages/cadastroRepresentante/cadastroRepresentante';
+
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* Exemplo de rota pública */}
         <Route path="/" element={<Home />} />
 
-        {/* Exemplo de rota protegida para admin */}
         <Route
           path="/admin"
           element={
@@ -21,7 +22,25 @@ const AppRoutes = () => {
               <ProtectedPage />
             </ProtectedRoute>
           }
-          />
+        />
+
+        <Route
+          path="/cadastro-ferrovelho"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <CadastroFerrosVelhos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/cadastro-representante"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <CadastroRepresentante />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Exemplo de rota catch all e não autorizada */}
         <Route path="/unauthorized" element={<Unauthorized />} />
