@@ -44,7 +44,7 @@ const Login = () => {
                 type="email"
                 label="Email"
                 name="email"
-                register={register}
+                register={register("email")}
                 placeholder="Digite seu email"
                 icon="/logoemail.svg"
               />
@@ -61,7 +61,7 @@ const Login = () => {
                 type="password"
                 name="password"
                 label="Senha"
-                register={register}
+                register={register("password")}
                 placeholder="Digite sua senha"
                 icon="/logosenha.svg"
               />
