@@ -5,8 +5,8 @@ import ProtectedPage from '../pages/ProtectedExample';
 import NotFound from '../pages/NotFound';
 import Unauthorized from '../pages/Unauthorized';
 import Layout from '../layouts/Layout';
-import CadastroVendedor from '../pages/cadastroFerroVelho/cadastroFerroVelhos'; 
-import CadastroRepresentante from '../pages/cadastroVendedor/cadastroVendedor';
+import CadastroFerrosVelhos from '../pages/cadastroFerroVelho/cadastroFerroVelhos'; 
+import CadastroRepresentante from '../pages/cadastroRepresentante/cadastroRepresentante';
 
 
 const AppRoutes = () => {
@@ -25,10 +25,10 @@ const AppRoutes = () => {
         />
 
         <Route
-          path="/cadastro-vendedor"
+          path="/cadastro-ferrovelho"
           element={
             <ProtectedRoute allowedRoles={['admin']}>
-              <CadastroVendedor />
+              <CadastroFerrosVelhos />
             </ProtectedRoute>
           }
         />

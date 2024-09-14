@@ -52,11 +52,13 @@ const CadastroRepresentante = () => {
       <div className="w-full max-w-4xl">
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <form onSubmit={handleSubmit}>
+            {/* Título principal */}
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Cadastro Representante</h2>
+            {/* Subtítulo movido para fora da grade */}
+            <h3 className="text-lg font-semibold mb-4">Informações do representante da empresa</h3>
 
             <div className="grid grid-cols-2 gap-x-12 gap-y-6">
               <div>
-                <h3 className="text-lg font-semibold mb-4">Informações do representante da empresa</h3>
                 <div className="space-y-4">
                   <Input
                     label="Nome Representante"
@@ -92,6 +94,7 @@ const CadastroRepresentante = () => {
                     value={formData.telefone}
                     error={errors.telefone}
                   />
+                  {/* Campo de Senha com ícone */}
                   <Input
                     label="Senha"
                     placeholder="Digite a Senha"
@@ -99,7 +102,9 @@ const CadastroRepresentante = () => {
                     onChangeCallback={(value) => handleInputChange('senha', value)}
                     value={formData.senha}
                     error={errors.senha}
+                    icon={<img src="/key.svg" alt="Ícone de Chave" className="w-5 h-5 text-gray-500" />}
                   />
+                  {/* Campo de Confirmar Senha com ícone */}
                   <Input
                     label="Confirmar Senha"
                     placeholder="Confirme a Senha"
@@ -107,6 +112,7 @@ const CadastroRepresentante = () => {
                     onChangeCallback={(value) => handleInputChange('confirmarSenha', value)}
                     value={formData.confirmarSenha}
                     error={errors.confirmarSenha}
+                    icon={<img src="/key.svg" alt="Ícone de Chave" className="w-5 h-5 text-gray-500" />}
                   />
                 </div>
               </div>
@@ -114,14 +120,16 @@ const CadastroRepresentante = () => {
           </form>
         </div>
         <div className="flex justify-end mt-8">
-          <Button
-            isFluid={false}
-            onClick={handleSubmit}
-            customClass="w-[330px] h-[45px]"
-          >
-            Cadastrar Representante
-          </Button>
+          <div className="w-80">
+            <Button
+              isFluid={true}
+              onClick={handleSubmit}
+            >
+              Cadastrar Representante
+            </Button>
+          </div>
         </div>
+
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importação do useNavigate
 import Input from '../../components/Input/index';
 import Button from '../../components/Button/index';
 import { z } from 'zod';
@@ -40,7 +41,9 @@ const vendedorSchema = z.object({
   estado: z.string().min(1, { message: "Estado obrigatório" }),
 });
 
-const CadastroVendedor = () => {
+const CadastroFerroVelho = () => {
+  const navigate = useNavigate(); // Inicialização do useNavigate
+
   const [formData, setFormData] = useState<FormData>({
     nomeEmpresa: '',
     nomeFantasia: '',
@@ -77,7 +80,7 @@ const CadastroVendedor = () => {
           estado: data.uf,
           complemento: data.complemento || '',
         }));
-        setErrors(prevState => ({ ...prevState, cep: '' }));
+        setErrors(prevState => ({ ...prevState, cep: '' }));      
       } else {
         setErrors(prevState => ({ ...prevState, cep: 'CEP não encontrado' }));
       }
@@ -92,6 +95,8 @@ const CadastroVendedor = () => {
       setErrors({});
       vendedorSchema.parse(formData);
       console.log('Formulário enviado com sucesso:', formData);
+      // Navegar para a próxima página
+      navigate('/cadastro-representante'); // Adicionado aqui
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Errors = {};
@@ -221,4 +226,4 @@ const CadastroVendedor = () => {
   );
 };
 
-export default CadastroVendedor;
+export default CadastroFerroVelho;
