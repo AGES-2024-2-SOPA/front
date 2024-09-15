@@ -94,7 +94,6 @@ const CadastroRepresentante = () => {
                     value={formData.telefone}
                     error={errors.telefone}
                   />
-                  {/* Campo de Senha com ícone */}
                   <Input
                     label="Senha"
                     placeholder="Digite a Senha"
@@ -104,7 +103,6 @@ const CadastroRepresentante = () => {
                     error={errors.senha}
                     icon={<img src="/key.svg" alt="Ícone de Chave" className="w-5 h-5 text-gray-500" />}
                   />
-                  {/* Campo de Confirmar Senha com ícone */}
                   <Input
                     label="Confirmar Senha"
                     placeholder="Confirme a Senha"
