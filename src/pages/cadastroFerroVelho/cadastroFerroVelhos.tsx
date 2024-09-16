@@ -182,14 +182,14 @@ const CadastroFerroVelho = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end mt-8">
-              <div className="w-80">
-                <Button isFluid={true} type="submit">
-                  Próximo
-                </Button>
-              </div>
-            </div>
           </form>
+        </div>
+        <div className="flex justify-end mt-8">
+          <div className="w-80">
+            <Button isFluid={true} type="submit">
+              Próximo
+            </Button>
+          </div>
         </div>
       </div>
     </div>

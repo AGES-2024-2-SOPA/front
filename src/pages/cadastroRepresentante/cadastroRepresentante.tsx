@@ -106,15 +106,15 @@ const CadastroRepresentante = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end mt-8">
+          </form>
+        </div>
+        <div className="flex justify-end mt-8">
               <div className="w-80">
                 <Button isFluid={true} type="submit">
                   Cadastrar Representante
                 </Button>
               </div>
             </div>
-          </form>
-        </div>
       </div>
     </div>
   );
