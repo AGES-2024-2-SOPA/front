@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importação do useNavigate
-import Input from '../../components/Input/index';
-import Button from '../../components/Button/index';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import axios from 'axios';
 
@@ -17,10 +19,6 @@ interface FormData {
   numero: string;
   complemento?: string;
   estado: string;
-}
-
-interface Errors {
-  [key: string]: string;
 }
 
 const cnpjRegex = /^\d{14}$/;
@@ -42,31 +40,26 @@ const vendedorSchema = z.object({
 });
 
 const CadastroFerroVelho = () => {
-  const navigate = useNavigate(); // Inicialização do useNavigate
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState<FormData>({
-    nomeEmpresa: '',
-    nomeFantasia: '',
-    cnpj: '',
-    email: '',
-    telefone: '',
-    cdv: '',
-    cep: '',
-    endereco: '',
-    numero: '',
-    complemento: '',
-    estado: '',
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(vendedorSchema),
   });
 
-  const [errors, setErrors] = useState<Errors>({});
+  const cepValue = watch('cep');
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData(prevState => ({ ...prevState, [field]: value }));
-
-    if (field === 'cep' && value.length === 8) {
-      fetchAddress(value);
+  useEffect(() => {
+    if (cepValue && cepValue.length === 8) {
+      fetchAddress(cepValue);
     }
-  };
+  }, [cepValue]);
 
   const fetchAddress = async (cep: string) => {
     try {
@@ -74,48 +67,28 @@ const CadastroFerroVelho = () => {
       const data = response.data;
 
       if (!data.erro) {
-        setFormData(prevState => ({
-          ...prevState,
-          endereco: data.logradouro,
-          estado: data.uf,
-          complemento: data.complemento || '',
-        }));
-        setErrors(prevState => ({ ...prevState, cep: '' }));      
+        setValue('endereco', data.logradouro);
+        setValue('estado', data.uf);
+        setValue('complemento', data.complemento || '');
+        setError('cep', {});
       } else {
-        setErrors(prevState => ({ ...prevState, cep: 'CEP não encontrado' }));
+        setError('cep', { type: 'manual', message: 'CEP não encontrado' });
       }
     } catch (error) {
-      setErrors(prevState => ({ ...prevState, cep: 'Erro ao buscar o CEP' }));
+      setError('cep', { type: 'manual', message: 'Erro ao buscar o CEP' });
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      setErrors({});
-      vendedorSchema.parse(formData);
-      console.log('Formulário enviado com sucesso:', formData);
-      // Navegar para a próxima página
-      navigate('/cadastro-representante'); // Adicionado aqui
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: Errors = {};
-        error.errors.forEach((err) => {
-          if (err.path && err.path.length > 0) {
-            const fieldName = err.path[0] as string;
-            newErrors[fieldName] = err.message;
-          }
-        });
-        setErrors(newErrors);
-      }
-    }
+  const onSubmit = (data: FormData) => {
+    console.log('Formulário enviado com sucesso:', data);
+    navigate('/cadastro-representante');
   };
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#FFF4EA]">
       <div className="w-full max-w-4xl">
         <div className="bg-white p-8 rounded-lg shadow-lg">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Cadastro Vendedor</h2>
 
             <div className="grid grid-cols-2 gap-x-12 gap-y-6">
@@ -124,47 +97,47 @@ const CadastroFerroVelho = () => {
                 <div className="space-y-4">
                   <Input
                     label="Nome da Empresa"
+                    name="nomeEmpresa"
                     placeholder="Digite o Nome da Empresa"
-                    onChangeCallback={(value) => handleInputChange('nomeEmpresa', value)}
-                    value={formData.nomeEmpresa}
-                    error={errors.nomeEmpresa}
+                    register={register('nomeEmpresa')}
+                    error={errors.nomeEmpresa?.message}
                   />
                   <Input
                     label="Nome Fantasia"
+                    name="nomeFantasia"
                     placeholder="Digite o Nome Fantasia"
-                    onChangeCallback={(value) => handleInputChange('nomeFantasia', value)}
-                    value={formData.nomeFantasia}
-                    error={errors.nomeFantasia}
+                    register={register('nomeFantasia')}
+                    error={errors.nomeFantasia?.message}
                   />
                   <Input
                     label="CNPJ"
+                    name="cnpj"
                     placeholder="Digite o CNPJ"
-                    onChangeCallback={(value) => handleInputChange('cnpj', value)}
-                    value={formData.cnpj}
-                    error={errors.cnpj}
+                    register={register('cnpj')}
+                    error={errors.cnpj?.message}
                   />
                   <Input
                     label="Email"
-                    placeholder="Digite o Email"
+                    name="email"
                     type="email"
-                    onChangeCallback={(value) => handleInputChange('email', value)}
-                    value={formData.email}
-                    error={errors.email}
+                    placeholder="Digite o Email"
+                    register={register('email')}
+                    error={errors.email?.message}
                   />
                   <Input
                     label="Telefone"
-                    placeholder="Digite o Telefone"
+                    name="telefone"
                     type="tel"
-                    onChangeCallback={(value) => handleInputChange('telefone', value)}
-                    value={formData.telefone}
-                    error={errors.telefone}
+                    placeholder="Digite o Telefone"
+                    register={register('telefone')}
+                    error={errors.telefone?.message}
                   />
                   <Input
                     label="CDV"
+                    name="cdv"
                     placeholder="Digite o CDV"
-                    onChangeCallback={(value) => handleInputChange('cdv', value)}
-                    value={formData.cdv}
-                    error={errors.cdv}
+                    register={register('cdv')}
+                    error={errors.cdv?.message}
                   />
                 </div>
               </div>
@@ -173,38 +146,38 @@ const CadastroFerroVelho = () => {
                 <div className="space-y-4">
                   <Input
                     label="CEP"
+                    name="cep"
                     placeholder="Digite o CEP"
-                    onChangeCallback={(value) => handleInputChange('cep', value)}
-                    value={formData.cep}
-                    error={errors.cep}
+                    register={register('cep')}
+                    error={errors.cep?.message}
                   />
                   <Input
                     label="Endereço"
+                    name="endereco"
                     placeholder="Digite o Endereço"
-                    onChangeCallback={(value) => handleInputChange('endereco', value)}
-                    value={formData.endereco}
-                    error={errors.endereco}
+                    register={register('endereco')}
+                    error={errors.endereco?.message}
                   />
                   <Input
                     label="Número"
+                    name="numero"
                     placeholder="Digite o Número"
-                    onChangeCallback={(value) => handleInputChange('numero', value)}
-                    value={formData.numero}
-                    error={errors.numero}
+                    register={register('numero')}
+                    error={errors.numero?.message}
                   />
                   <Input
                     label="Complemento"
+                    name="complemento"
                     placeholder="Digite o Complemento"
-                    onChangeCallback={(value) => handleInputChange('complemento', value)}
-                    value={formData.complemento}
-                    error={errors.complemento}
+                    register={register('complemento')}
+                    error={errors.complemento?.message}
                   />
                   <Input
                     label="Estado"
+                    name="estado"
                     placeholder="Digite o Estado"
-                    onChangeCallback={(value) => handleInputChange('estado', value)}
-                    value={formData.estado}
-                    error={errors.estado}
+                    register={register('estado')}
+                    error={errors.estado?.message}
                   />
                 </div>
               </div>
@@ -212,15 +185,12 @@ const CadastroFerroVelho = () => {
           </form>
         </div>
         <div className="flex justify-end mt-8">
-          <div className="w-80">
-            <Button
-              isFluid={true}
-              onClick={handleSubmit}
-            >
-              Próximo
-            </Button>
-          </div>
-        </div>
+  <div className="w-80">
+    <Button isFluid={true} onClick={handleSubmit(onSubmit)}>
+      Próximo
+    </Button>
+  </div>
+</div>
       </div>
     </div>
   );

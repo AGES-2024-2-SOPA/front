@@ -1,60 +1,51 @@
-import React, { useState } from 'react';
-import Input from '../../components/Input/index';
-import Button from '../../components/Button/index';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-const representanteSchema = z.object({
-  nomeRepresentante: z.string().min(3, { message: "Nome do Representante deve ter pelo menos 3 caracteres" }),
-  cpf: z.string().min(11, { message: "CPF deve ter 11 dígitos" }).max(11, { message: "CPF deve ter 11 dígitos" }),
-  email: z.string().email({ message: "Email inválido" }),
-  telefone: z.string().regex(/^\d{10,11}$/, { message: "Telefone inválido" }),
-  senha: z.string().min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
-  confirmarSenha: z.string().min(6, { message: "Confirme a senha" }),
-});
+interface FormData {
+  nomeRepresentante: string;
+  cpf: string;
+  email: string;
+  telefone: string;
+  senha: string;
+  confirmarSenha: string;
+}
+
+const representanteSchema = z
+  .object({
+    nomeRepresentante: z.string().min(3, { message: "Nome do Representante deve ter pelo menos 3 caracteres" }),
+    cpf: z.string().length(11, { message: "CPF deve ter 11 dígitos" }),
+    email: z.string().email({ message: "Email inválido" }),
+    telefone: z.string().regex(/^\d{10,11}$/, { message: "Telefone inválido" }),
+    senha: z.string().min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
+    confirmarSenha: z.string().min(6, { message: "Confirme a senha" }),
+  })
+  .refine((data) => data.senha === data.confirmarSenha, {
+    path: ['confirmarSenha'],
+    message: 'As senhas não coincidem',
+  });
 
 const CadastroRepresentante = () => {
-  const [formData, setFormData] = useState({
-    nomeRepresentante: '',
-    cpf: '',
-    email: '',
-    telefone: '',
-    senha: '',
-    confirmarSenha: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(representanteSchema),
   });
 
-  const [errors, setErrors] = useState({
-    nomeRepresentante: '', cpf: '', email: '', telefone: '', senha: '', confirmarSenha: ''
-  });
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prevState => ({ ...prevState, [field]: value }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      setErrors({
-        nomeRepresentante: '', cpf: '', email: '', telefone: '', senha: '', confirmarSenha: ''
-      });
-      representanteSchema.parse(formData);
-      console.log('Formulário enviado com sucesso:', formData);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        error.errors.forEach((err) => {
-          setErrors(prev => ({ ...prev, [err.path[0]]: err.message }));
-        });
-      }
-    }
+  const onSubmit = (data: FormData) => {
+    console.log('Formulário enviado com sucesso:', data);
   };
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#FFF4EA]">
       <div className="w-full max-w-4xl">
         <div className="bg-white p-8 rounded-lg shadow-lg">
-          <form onSubmit={handleSubmit}>
-            {/* Título principal */}
+          <form onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Cadastro Representante</h2>
-            {/* Subtítulo movido para fora da grade */}
             <h3 className="text-lg font-semibold mb-4">Informações do representante da empresa</h3>
 
             <div className="grid grid-cols-2 gap-x-12 gap-y-6">
@@ -62,25 +53,25 @@ const CadastroRepresentante = () => {
                 <div className="space-y-4">
                   <Input
                     label="Nome Representante"
+                    name="nomeRepresentante"
                     placeholder="Digite o Nome do Representante"
-                    onChangeCallback={(value) => handleInputChange('nomeRepresentante', value)}
-                    value={formData.nomeRepresentante}
-                    error={errors.nomeRepresentante}
+                    register={register('nomeRepresentante')}
+                    error={errors.nomeRepresentante?.message}
                   />
                   <Input
                     label="CPF"
+                    name="cpf"
                     placeholder="Digite o CPF"
-                    onChangeCallback={(value) => handleInputChange('cpf', value)}
-                    value={formData.cpf}
-                    error={errors.cpf}
+                    register={register('cpf')}
+                    error={errors.cpf?.message}
                   />
                   <Input
                     label="Email"
-                    placeholder="Digite o Email"
+                    name="email"
                     type="email"
-                    onChangeCallback={(value) => handleInputChange('email', value)}
-                    value={formData.email}
-                    error={errors.email}
+                    placeholder="Digite o Email"
+                    register={register('email')}
+                    error={errors.email?.message}
                   />
                 </div>
               </div>
@@ -88,29 +79,29 @@ const CadastroRepresentante = () => {
                 <div className="space-y-4">
                   <Input
                     label="Telefone"
-                    placeholder="Digite o Telefone"
+                    name="telefone"
                     type="tel"
-                    onChangeCallback={(value) => handleInputChange('telefone', value)}
-                    value={formData.telefone}
-                    error={errors.telefone}
+                    placeholder="Digite o Telefone"
+                    register={register('telefone')}
+                    error={errors.telefone?.message}
                   />
                   <Input
                     label="Senha"
+                    name="senha"
                     placeholder="Digite a Senha"
                     type="password"
-                    onChangeCallback={(value) => handleInputChange('senha', value)}
-                    value={formData.senha}
-                    error={errors.senha}
-                    icon={<img src="/key.svg" alt="Ícone de Chave" className="w-5 h-5 text-gray-500" />}
+                    register={register('senha')}
+                    error={errors.senha?.message}
+                    icon="/key.svg"
                   />
                   <Input
                     label="Confirmar Senha"
+                    name="confirmarSenha"
                     placeholder="Confirme a Senha"
                     type="password"
-                    onChangeCallback={(value) => handleInputChange('confirmarSenha', value)}
-                    value={formData.confirmarSenha}
-                    error={errors.confirmarSenha}
-                    icon={<img src="/key.svg" alt="Ícone de Chave" className="w-5 h-5 text-gray-500" />}
+                    register={register('confirmarSenha')}
+                    error={errors.confirmarSenha?.message}
+                    icon="/key.svg"
                   />
                 </div>
               </div>
@@ -119,15 +110,11 @@ const CadastroRepresentante = () => {
         </div>
         <div className="flex justify-end mt-8">
           <div className="w-80">
-            <Button
-              isFluid={true}
-              onClick={handleSubmit}
-            >
-              Cadastrar Representante
+            <Button isFluid={true} onClick={handleSubmit(onSubmit)}>
+              Próximo
             </Button>
           </div>
         </div>
-
       </div>
     </div>
   );
