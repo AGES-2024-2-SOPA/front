@@ -1,5 +1,3 @@
-// pages/CadastroRepresentante/index.tsx
-
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Input';
@@ -54,7 +52,6 @@ const CadastroRepresentante: React.FC = () => {
   const onSubmit = (data: FormData) => {
     console.log('Dados do Representante:', data);
     setCadastroRepresentante(data);
-    // Navegar para a próxima página ou realizar outra ação
   };
 
   const handleBackClick = () => {
@@ -63,6 +60,7 @@ const CadastroRepresentante: React.FC = () => {
 
   const handleModalConfirm = () => {
     setShowModal(false);
+    setCadastroRepresentante({}); 
     navigate(-1);
   };
 

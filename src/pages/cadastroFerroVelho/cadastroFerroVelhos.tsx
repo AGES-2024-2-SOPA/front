@@ -1,5 +1,3 @@
-// pages/CadastroFerroVelho/index.tsx
-
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Input';
@@ -100,7 +98,8 @@ const CadastroFerroVelho: React.FC = () => {
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    navigate(-1);
+    setCadastroFerroVelho({}); 
+    navigate('/'); 
   };
 
   const handleModalCancel = () => {
