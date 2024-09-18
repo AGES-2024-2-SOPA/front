@@ -70,6 +70,9 @@ const CadastroRepresentante: React.FC = () => {
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#FFF4EA]">
+      <div className="flex justify-center mb-6">
+        <img src="/logo.svg" alt="Logo" className="w-20 h-auto" />
+      </div>
       <div className="w-full max-w-4xl">
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <form id="cadastro-form">

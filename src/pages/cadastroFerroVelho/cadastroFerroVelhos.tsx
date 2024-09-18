@@ -10,6 +10,8 @@ import axios from 'axios';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { FormDataContext } from '../../contexts/FormDataContext';
 
+// Remova a importação direta do arquivo SVG
+
 interface FormData {
   nomeEmpresa: string;
   nomeFantasia: string;
@@ -98,8 +100,8 @@ const CadastroFerroVelho: React.FC = () => {
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    setCadastroFerroVelho({}); 
-    navigate('/'); 
+    setCadastroFerroVelho({});
+    navigate('/');
   };
 
   const handleModalCancel = () => {
@@ -108,6 +110,10 @@ const CadastroFerroVelho: React.FC = () => {
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#FFF4EA]">
+      {/* Usando a referência direta para a logo no caminho correto */}
+      <div className="flex justify-center mb-6">
+        <img src="/logo.svg" alt="Logo" className="w-20 h-auto" />
+      </div>
       <div className="w-full max-w-4xl">
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <form id="cadastro-ferro-velho-form">
