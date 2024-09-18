@@ -6,7 +6,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   register?: UseFormRegisterReturn;
-  name: string;
+  name?: string;
   error?: string;
 }
 
