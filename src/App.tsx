@@ -1,11 +1,14 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
+import { FormDataProvider } from './contexts/FormDataContext';
 
 const App = () => {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <FormDataProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </FormDataProvider>
   );
 };
 
