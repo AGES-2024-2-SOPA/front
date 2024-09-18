@@ -4,26 +4,48 @@ import ProtectedRoute from './ProtectedRoute';
 import ProtectedPage from '../pages/ProtectedExample';
 import NotFound from '../pages/NotFound';
 import Unauthorized from '../pages/Unauthorized';
+import Layout from '../layouts/Layout';
+import CadastroFerrosVelhos from '../pages/cadastroFerroVelho/cadastroFerroVelhos'; 
+import CadastroRepresentante from '../pages/cadastroRepresentante/cadastroRepresentante';
+
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Exemplo de rota pública */}
-      <Route path="/" element={<Home />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
 
-      {/* Exemplo de rota protegida para admin */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <ProtectedPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedPage />
+            </ProtectedRoute>
+          }
+        />
 
-      {/* Exemplo de rota catch all e não autorizada */}
-      <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="*" element={<NotFound />} />
+        <Route
+          path="/cadastro-ferrovelho"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <CadastroFerrosVelhos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/cadastro-representante"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <CadastroRepresentante />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Exemplo de rota catch all e não autorizada */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
     </Routes>
   );
 };

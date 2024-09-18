@@ -9,7 +9,7 @@ const AddPieceButton: React.FC<{ onClick: () => void; disabled?: boolean }> = ({
         disabled={disabled}
         className={`
           ${disabled ? 'cursor-not-allowed border-gray-300 text-gray-400' : 'cursor-pointer border-[#8c9b96] text-[#7eccb3]'}
-          w-[50rem] max-w-[40rem] py-[0.5rem] 
+          w-[50rem] max-w-[40rem] py-[0.5rem] mt-[5rem]
           border-2 border-[#E1E1E1] bg-white 
           text-center text-2xl text-[#6F757E] font-normal rounded-lg 
           transition-colors duration-300 ease-in-out
@@ -19,7 +19,7 @@ const AddPieceButton: React.FC<{ onClick: () => void; disabled?: boolean }> = ({
       >
         <div className="flex flex-col items-center justify-center">
           <div className="bg-green-500 text-white rounded-full w-7 h-7 flex items-center justify-center">
-            <span className="text-3xl mb-1">+</span>
+            <span className="text-3xl">+</span>
           </div>
           <span className="text-xl">Adicionar peça</span>
         </div>
